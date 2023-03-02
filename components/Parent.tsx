@@ -3,17 +3,14 @@ import { useState, ChangeEvent, useRef } from 'react';
 import '../style.css';
 import { Itask } from '../interface';
 import ToDoItem from './toDoItem';
+import Navbar from './navbar';
 
 export default function Parent() {
-  /* let [task, setTask] = useState<string>('');
-   let [deadline, setdeadline] = useState<number>(0);*/
-  //
   let [todolist, setToDoList] = useState<Itask[]>([]);
 
   const Identity = useRef(null);
 
-  const displaydate = new Date();
-
+  // task and deadline
   const task = useRef<HTMLInputElement>(null);
   const deadline = useRef<HTMLInputElement>(null);
 
@@ -27,6 +24,10 @@ export default function Parent() {
   //   else setdeadline(Number(event.target.value));
   // };
   //--------------------***--------------
+
+  // here event that is occuring is of type htmlInputelement which converts inputdata into
+  //its respective types as event is of type generic event
+  // hence the variable to which u assign should also be of type generic event
 
   const handledatadisplay = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.name === 'task') {
@@ -66,6 +67,7 @@ export default function Parent() {
       task.current.value = '';
       deadline.current.value = '0';
       Identity.current = null;
+      document.getElementById('button').innerText = 'add-task';
     }
   };
 
@@ -84,6 +86,10 @@ export default function Parent() {
   // handle edit data
   const handleEdit = (taskidtoedit: number): void => {
     Identity.current = taskidtoedit;
+
+    document.getElementById('button').innerText = 'save-task';
+
+    console.log(Identity.current);
     todolist.map((clickedForEdit) => {
       if (Identity.current === clickedForEdit.ID) {
         task.current.value = clickedForEdit.taskname;
@@ -107,15 +113,10 @@ export default function Parent() {
     });
     setToDoList(newarr);
   };
-  //
-  console.log('task.current: ', task.current);
 
   return (
     <div>
-      <div className="navbar">
-        <h1> TO-DO LIST APP</h1>
-        <h3>Date:{displaydate.toLocaleDateString()}</h3>
-      </div>
+      <Navbar />
       <div className="inputarea">
         <label>SET GOAL:</label>
         <input
@@ -139,7 +140,7 @@ export default function Parent() {
 
         <button onClick={handledatapush} id="button">
           {' '}
-          {Identity.current ? 'save task' : 'add the task'}
+          add-task
         </button>
       </div>
 
