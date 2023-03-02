@@ -14,7 +14,6 @@ export default function Parent() {
 
   const displaydate = new Date();
 
-  // task and deadline
   const task = useRef<HTMLInputElement>(null);
   const deadline = useRef<HTMLInputElement>(null);
 
