@@ -1,0 +1,49 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+#todo {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#todo td {
+  border: 2px solid rgb(0, 0, 0);
+  text-align: center;
+  height: 5px;
+  width: 300px;
+  vertical-align: center;
+}
+
+#todo button {
+  height: 30px;
+  width: 100px;
+  margin: 5px 10px 5px;
+  vertical-align: center;
+  border-radius: 10px;
+  border: 1px solid red;
+  background-color: rgb(20, 231, 196);
+  color: white;
+}
+#todo button:hover {
+  background-color: lightcoral;
+}
+.form-check {
+  display: inline-block;
+  min-height: 1.5rem;
+  padding-left: 1.5em;
+  margin-bottom: 0.125rem;
+}
+.form-check-input {
+  vertical-align: center;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 2px solid green;
+}
+.form-check-label-true {
+  text-decoration: line-through;
+  background-color: lightslategray;
+}
