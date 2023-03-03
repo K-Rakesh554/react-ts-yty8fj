@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, ChangeEvent, useRef } from 'react';
+import { useState, ChangeEvent, useRef, useCallback } from 'react';
 import '../style.css';
 import { Itask } from '../interface';
 import ToDoItem from './toDoItem';
@@ -29,14 +29,17 @@ export default function Parent() {
   //its respective types as event is of type generic event
   // hence the variable to which u assign should also be of type generic event
 
-  const handledatadisplay = (event: ChangeEvent<HTMLInputElement>): void => {
-    if (event.target.name === 'task') {
-      task.current.value = event.target.value;
-    } else deadline.current.value = event.target.value;
-  };
+  const handledatadisplay = useCallback(
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      if (event.target.name === 'task') {
+        task.current.value = event.target.value;
+      } else deadline.current.value = event.target.value;
+    },
+    []
+  );
 
   //handler to push data
-  const handledatapush = () => {
+  const handledatapush = useCallback(() => {
     const genID = Date.now();
 
     if (task.current.value == '' || deadline.current.value == '0') {
@@ -69,50 +72,54 @@ export default function Parent() {
       Identity.current = null;
       document.getElementById('button').innerText = 'add-task';
     }
-  };
+  }, [todolist, task.current, deadline.current]);
 
   // handler to delete data
-  const handledelete = (tasknametodelete: number): void => {
-    {
-      console.log('this is delete func');
-    }
-    setToDoList(
-      todolist.filter((task) => {
-        return task.ID !== tasknametodelete;
-      })
-    );
-  };
+  const handledelete = useCallback(
+    (tasknametodelete: number): void => {
+      if (Identity.current == null)
+        setToDoList(
+          todolist.filter((task) => {
+            return task.ID !== tasknametodelete;
+          })
+        );
+    },
+    [todolist]
+  );
 
   // handle edit data
-  const handleEdit = (taskidtoedit: number): void => {
-    Identity.current = taskidtoedit;
+  const handleEdit = useCallback(
+    (taskidtoedit: number): void => {
+      Identity.current = taskidtoedit;
 
-    document.getElementById('button').innerText = 'save-task';
+      document.getElementById('button').innerText = 'save-task';
 
-    console.log(Identity.current);
-    todolist.map((clickedForEdit) => {
-      if (Identity.current === clickedForEdit.ID) {
-        task.current.value = clickedForEdit.taskname;
-        deadline.current.value = clickedForEdit.daystocomplete;
-      }
-      // else {
-      //   [...todolist];
-      // }
-    });
-  };
+      console.log(Identity.current);
+      todolist.map((clickedForEdit) => {
+        if (Identity.current === clickedForEdit.ID) {
+          task.current.value = clickedForEdit.taskname;
+          deadline.current.value = clickedForEdit.daystocomplete;
+        }
+      });
+    },
+    [Identity.current, task.current, todolist, deadline.current]
+  );
 
   //handle checkbox toggle
-  const handleCheckbox = (taskIdcheck: number, checkboxval: boolean): void => {
-    checkid.current = taskIdcheck;
+  const handleCheckbox = useCallback(
+    (taskIdcheck: number, checkboxval: boolean): void => {
+      checkid.current = taskIdcheck;
 
-    const newarr = todolist.map((item) => {
-      if (item.ID === checkid.current) {
-        item.isComplete = checkboxval;
-      }
-      return item;
-    });
-    setToDoList(newarr);
-  };
+      const newarr = todolist.map((item) => {
+        if (item.ID === checkid.current) {
+          item.isComplete = checkboxval;
+        }
+        return item;
+      });
+      setToDoList(newarr);
+    },
+    [todolist, checkid.current]
+  );
 
   return (
     <div>

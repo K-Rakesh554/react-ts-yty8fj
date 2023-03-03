@@ -70,4 +70,4 @@ function ToDoItem({ task, tasktodelete, tasktoedit, handleCheck }: Props) {
     </tr>
   );
 }
-export default ToDoItem;
+export default React.memo(ToDoItem);
