@@ -108,15 +108,16 @@ export default function Parent() {
   //handle checkbox toggle
   const handleCheckbox = useCallback(
     (taskIdcheck: number, checkboxval: boolean): void => {
-      checkid.current = taskIdcheck;
-
-      const newarr = todolist.map((item) => {
-        if (item.ID === checkid.current) {
-          item.isComplete = checkboxval;
-        }
-        return item;
-      });
-      setToDoList(newarr);
+      if (Identity.current === null) {
+        checkid.current = taskIdcheck;
+        const newarr = todolist.map((item) => {
+          if (item.ID === checkid.current) {
+            item.isComplete = checkboxval;
+          }
+          return item;
+        });
+        setToDoList(newarr);
+      }
     },
     [todolist, checkid.current]
   );
