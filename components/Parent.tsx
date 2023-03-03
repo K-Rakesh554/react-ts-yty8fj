@@ -102,7 +102,7 @@ export default function Parent() {
         }
       });
     },
-    [Identity.current, task.current, todolist, deadline.current]
+    [Identity.current, todolist]
   );
 
   //handle checkbox toggle
